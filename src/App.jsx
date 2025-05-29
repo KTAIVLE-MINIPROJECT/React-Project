@@ -1,10 +1,25 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import axios from 'axios'
 
 function App() {
   const [count, setCount] = useState(0)
+
+  const hello = async () => {
+    const res = await axios('http://localhost:8080/api/v1/hello')
+
+    if (res.status == 200) {
+      console.log('hello check')
+    } else {
+      console.error('hello fail.. check your server.')
+    }
+  }
+
+  useEffect(() => {
+    hello()
+  }, [])
 
   return (
     <>
