@@ -6,6 +6,7 @@ import { domain } from "../const/http"
 
 const BookDetail = ({ selectedBook, updateBook, categories }) => {
     const [currentBook, setCurrentBook] = useState(selectedBook)
+    const [apiKey, setApiKey] = useState("")
 
     const changeBook = (key) => (e) => {
         setCurrentBook((state) => ({
@@ -24,6 +25,10 @@ const BookDetail = ({ selectedBook, updateBook, categories }) => {
         const res = await axios(domain + '/api/v1/book', { method: 'DELETE', data: currentBook })
         console.info('delete:', res.data)
         updateBook()
+    }
+
+    const changeApiKey = (e) => {
+        setApiKey(e.target.value)
     }
 
     useEffect(() => {
@@ -123,6 +128,12 @@ const BookDetail = ({ selectedBook, updateBook, categories }) => {
                         placeholder="데이터가 존재하지 않습니다."
                         disabled={!currentBook}
                         onChange={changeBook('content')}
+                    />
+                    <TextField
+                        id="api_key"
+                        label="api_key"
+                        value={apiKey}
+                        onChange={changeApiKey}
                     />
                 </div>
                 <div style={{ display: 'flex', gap: '1rem' }}>
