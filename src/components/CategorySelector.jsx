@@ -1,19 +1,20 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material"
 
-const CategorySelector = ({ selectedCategory, categories, selectCategory }) => {
-    const { id: selectedId } = selectedCategory
+const CategorySelector = ({ selectedCategory, categories, selectCategory, hiddenLabel, isNotNull }) => {
+    const { id: selectedId } = selectedCategory ?? { id: null }
 
     return (
-        <FormControl fullWidth>
-            <InputLabel id="category-select-label">Category</InputLabel>
+        <FormControl disabled={!selectedCategory} fullWidth>
+            {hiddenLabel ? null : <InputLabel id="category-select-label">Category</InputLabel>}
             <Select
                 labelId="category-select-label"
                 id="category-select"
                 value={selectedId}
-                label="Category"
+                hiddenLabel
+                label={hiddenLabel ? null : "Category"}
                 onChange={selectCategory}
             >
-                <MenuItem style={{ color: 'gray' }} value={-1}>-- 미선택 --</MenuItem>
+                {isNotNull ? null : <MenuItem style={{ color: 'gray' }} value={-1}>-- 미선택 --</MenuItem>}
                 {categories.map(({ id, name }) => 
                     <MenuItem value={id}>{name}</MenuItem>
                 )}

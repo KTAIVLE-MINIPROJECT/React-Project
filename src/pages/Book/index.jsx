@@ -60,7 +60,7 @@ const Book = () => {
                 <BookList books={filterdBooks} selectBook={handleSelectBook} />
             </div>
         </section>
-        <BookDetail selectedBook={selectedBook} updateBook={() => console.log('update')} deleteBook={() => console.log('delete')}/>
+        <BookDetail selectedBook={selectedBook} updateBook={getData} categories={data.categories}/>
     </div>
     )
 }
