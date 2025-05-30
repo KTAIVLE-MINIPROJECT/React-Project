@@ -5,7 +5,7 @@ import App from './App.jsx'
 import Book from './pages/Book';
 import Register from './pages/Register.jsx';
 import MainLayout from './layouts/MainLayout.jsx';
-import NotFound from './pages/NotFount.jsx';
+import NotFound from './pages/NotFound';
 import './index.css'
 
 const router = createBrowserRouter([
