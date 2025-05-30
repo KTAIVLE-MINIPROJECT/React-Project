@@ -4,14 +4,21 @@ import axios from 'axios'
 import { domain } from '../../const/http'
 import CategorySelector from '../../components/CategorySelector'
 import BookSearch from '../../components/BookSearch'
+import BookList from '../../components/BookList'
+import BookDetail from '../../components/BookDetail'
 
 const Book = () => {
     const [data, setData] = useState({ categories: [], books: [] })
     const [selectedCategory, setSelectedCategory] = useState({ id: -1, name: '-- 미선택 --' })
     const [searchText, setSearchText] = useState('')
+    const [selectedBook, setSelectedBook] = useState(null)
 
     const filterdBooks = data.books.filter(
-        ({ author, publisher, content }) => author.includes(searchText) || publisher.includes(searchText) || content.includes(searchText)
+        ({ author, publisher, content, category_id }) => 
+            (author.includes(searchText) || 
+            publisher.includes(searchText) || 
+            content.includes(searchText)) &&
+            (selectedCategory.id == -1 || category_id == selectedCategory.id)
     )
     
     const getData = async () => {
@@ -30,11 +37,16 @@ const Book = () => {
         setSearchText(e.target.value)
     }
 
+    const handleSelectBook = (book) => {
+        setSelectedBook(book)
+    }
+
     useEffect(() => {
         getData()
     }, [])
 
-    return <div className='book'>
+    return (
+    <div className='book'>
         <section>
             <div className='category-selector'>
                 <span>1. 카테고리를 선택해주세요.*</span>
@@ -45,10 +57,12 @@ const Book = () => {
                 <BookSearch searchBooks={handleSearchBooks} />
             </div>
             <div>
-                {filterdBooks.map((v) => <button>{v.title}</button>)}
+                <BookList books={filterdBooks} selectBook={handleSelectBook} />
             </div>
         </section>
+        <BookDetail selectedBook={selectedBook} updateBook={() => console.log('update')} deleteBook={() => console.log('delete')}/>
     </div>
+    )
 }
 
 export default Book

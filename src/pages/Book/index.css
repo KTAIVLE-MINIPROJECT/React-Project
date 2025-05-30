@@ -1,5 +1,13 @@
 .book {
-    /* color: red; */
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.book section {
+    width: 100%;
 }
 
 .category-selector {
