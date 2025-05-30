@@ -7,12 +7,13 @@ import bookImage from '/book.png'
 import { Button } from '@mui/material'
 
 import axios from 'axios'
+import { domain } from './const/http';
 
 function App() {
   const navigate = useNavigate()
 
   const hello = async () => {
-    const res = await axios('http://localhost:8080/api/v1/hello')
+    const res = await axios(domain + '/api/v1/hello')
 
     if (res.status == 200) {
       console.log('hello check')

@@ -1,0 +1,14 @@
+.main-header {
+  width: 100%;
+  text-align: left;
+  font-size: 64px;
+  font-weight: bold;
+}
+
+.main-header a {
+  color: black;
+}
+
+.main-header a:hover {
+  color: black;
+}
