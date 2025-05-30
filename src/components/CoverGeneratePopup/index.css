@@ -1,0 +1,7 @@
+.generate-popup {
+    width: 80%;
+    height: 80%;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 5px 10px gray;
+}

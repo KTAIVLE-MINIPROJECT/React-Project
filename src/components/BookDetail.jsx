@@ -41,7 +41,7 @@ const BookDetail = ({ selectedBook, updateBook, deleteBook }) => {
                     />
                 </div>
                 <div>
-                    <span>저자자</span>
+                    <span>저자</span>
                     <TextField
                         id="author"
                         hiddenLabel
