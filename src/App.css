@@ -26,3 +26,21 @@
   color: black;
 }
 
+.home {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6rem;
+  margin-top: 8rem;
+}
+
+.home .route-button {
+  width: 200px;
+  height: 300px;
+  box-shadow: 0px 5px 10px gray;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

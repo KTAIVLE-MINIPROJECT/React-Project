@@ -1,11 +1,15 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 import './App.css'
+
+import searchImage from '/search.png'
+import bookImage from '/book.png'
+import { Button } from '@mui/material'
+
 import axios from 'axios'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const navigate = useNavigate()
 
   const hello = async () => {
     const res = await axios('http://localhost:8080/api/v1/hello')
@@ -21,29 +25,20 @@ function App() {
     hello()
   }, [])
 
+  const handleRouteBook = () => navigate('/book')
+  const handleRouteBookRegister = () => navigate('/book/register')
+
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className='home'>
+      <Button className='route-button' variant="contained" onClick={handleRouteBook}>
+        <img src={searchImage} />
+        <h3>도서 조회</h3>
+      </Button>
+      <Button className='route-button' variant="contained" onClick={handleRouteBookRegister}>
+        <img src={bookImage} />
+        <h3>도서 등록</h3>
+      </Button>
+    </div>
   )
 }
 
