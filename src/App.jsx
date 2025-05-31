@@ -33,6 +33,9 @@ function App() {
   const handleOpenPopup = () => {
     setOpenPopup(true)
   }
+  const handleClosePopup = () => {
+    setOpenPopup(false)
+  }
 
   return (
     <div className='home'>
@@ -48,7 +51,7 @@ function App() {
         <img src={bookImage} />
         <h3>팝업 임시</h3>
       </Button>
-      {openPopup ? <CoverGeneratePopup /> : null}
+      {openPopup ? <CoverGeneratePopup onClose={handleClosePopup} /> : null}
     </div>
   )
 }
