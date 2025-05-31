@@ -1,12 +1,14 @@
 import { Button, TextField } from "@mui/material"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import CategorySelector from "./CategorySelector"
 import axios from "axios"
 import { domain } from "../const/http"
+import CoverGeneratePopup from "./CoverGeneratePopup/index.jsx";
 
 const BookDetail = ({ selectedBook, updateBook, categories }) => {
     const [currentBook, setCurrentBook] = useState(selectedBook)
     const [apiKey, setApiKey] = useState("")
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const changeBook = (key) => (e) => {
         setCurrentBook((state) => ({
@@ -15,20 +17,44 @@ const BookDetail = ({ selectedBook, updateBook, categories }) => {
         }))
     }
 
+    const prompt = `다음으로 주어지는 책의 정보를 가지고 어울리는 책 표지를 만들어줘.
+      책 제목: ${currentBook?.title}
+      작품 카테고리: ${categories.find(({ id }) => currentBook?.category_id === id)?.name}
+      작품 소개: ${currentBook?.content}`
+
     const handleUpdateBook = async () => {
         const res = await axios(domain + '/api/v1/book', { method: 'PUT', data: currentBook })
+        alert('수정되었습니다.')
         console.info('update:', res.data)
         updateBook()
     }
 
     const handleDeleteBook = async () => {
         const res = await axios(domain + '/api/v1/book', { method: 'DELETE', data: currentBook })
+        alert('삭제되었습니다.')
         console.info('delete:', res.data)
+        setCurrentBook(null)
         updateBook()
     }
 
     const changeApiKey = (e) => {
         setApiKey(e.target.value)
+    }
+
+    const handleCoverSelect = (imagePath) => {
+        setCurrentBook((prev) => ({
+            ...prev,
+            cover_url: imagePath,
+        }));
+        alert('표지가 수정되었습니다.')
+        setIsPopupOpen(false);
+    };
+
+    const handleOpenPopup = () => {
+        setIsPopupOpen(true)
+    }
+    const handleClosePopup = () => {
+        setIsPopupOpen(false)
     }
 
     useEffect(() => {
@@ -40,7 +66,7 @@ const BookDetail = ({ selectedBook, updateBook, categories }) => {
             <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem', justifyContent: 'space-around' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
                     {currentBook?.cover_url ? 
-                        <img src={currentBook?.cover_url} width='100px' height='150px' /> :
+                        <img src={currentBook?.cover_url} width='400px' height='500px' /> :
                         <span style={{ 
                             display: 'flex',
                             justifyContent: 'center',
@@ -132,16 +158,24 @@ const BookDetail = ({ selectedBook, updateBook, categories }) => {
                     <TextField
                         id="api_key"
                         label="api_key"
+                        type="password"
                         value={apiKey}
                         onChange={changeApiKey}
                     />
                 </div>
                 <div style={{ display: 'flex', gap: '1rem' }}>
-                    <Button variant="contained" onClick={() => console.log('표지 생성')} color="secondary">표지 생성</Button>
+                    <Button variant="contained" onClick={handleOpenPopup} color="secondary">표지 생성</Button>
                     <Button variant="contained" onClick={handleUpdateBook} color="success">수정</Button>
                     <Button variant="contained" onClick={handleDeleteBook} color="error">삭제</Button>
                 </div>
             </div>
+            {isPopupOpen ?
+              <CoverGeneratePopup
+                onClose={handleClosePopup}
+                onCoverSelect={handleCoverSelect}
+                apiKey={apiKey}
+                prompt={prompt}
+              /> : null}
         </section>
     )
 }

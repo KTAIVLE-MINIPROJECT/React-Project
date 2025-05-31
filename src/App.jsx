@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import './App.css'
 
@@ -8,11 +8,9 @@ import { Button } from '@mui/material'
 
 import axios from 'axios'
 import { domain } from './const/http';
-import CoverGeneratePopup from './components/CoverGeneratePopup';
 
 function App() {
   const navigate = useNavigate()
-  const [openPopup, setOpenPopup] = useState(false)
 
   const hello = async () => {
     const res = await axios(domain + '/api/v1/hello')
@@ -30,12 +28,6 @@ function App() {
 
   const handleRouteBook = () => navigate('/book')
   const handleRouteBookRegister = () => navigate('/book/register')
-  const handleOpenPopup = () => {
-    setOpenPopup(true)
-  }
-  const handleClosePopup = () => {
-    setOpenPopup(false)
-  }
 
   return (
     <div className='home'>
@@ -47,11 +39,6 @@ function App() {
         <img src={bookImage} />
         <h3>도서 등록</h3>
       </Button>
-      <Button className='route-button' variant="contained" onClick={handleOpenPopup}>
-        <img src={bookImage} />
-        <h3>팝업 임시</h3>
-      </Button>
-      {openPopup ? <CoverGeneratePopup onClose={handleClosePopup} /> : null}
     </div>
   )
 }

@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './index.css';
+import { createPortal } from "react-dom";
+import {CircularProgress} from "@mui/material";
 
-const CoverGeneratePopup = ({ onClose }) => {
-  const [selected, setSelected] = useState(null);
+const CoverGeneratePopup = ({ onClose, onCoverSelect, apiKey, prompt }) => {
   const [imageUrls, setImageUrls] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
-
-  const TEMP_API_KEY = ''; // 실제 키로 대체
 
   const generateImages = async () => {
     setIsLoading(true);
@@ -16,11 +15,11 @@ const CoverGeneratePopup = ({ onClose }) => {
       const response = await fetch('https://api.openai.com/v1/images/generations', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${TEMP_API_KEY}`,
+          'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          prompt: '책 제목과 내용을 기반으로 한 도서 표지 이미지',
+          prompt,
           n: 3,
           size: '512x512',
         }),
@@ -41,41 +40,41 @@ const CoverGeneratePopup = ({ onClose }) => {
     }
   };
 
-  useEffect(() => {
-    generateImages();
-  }, []);
-
-  const handleSelect = (index) => {
-    setSelected(index);
-    setTimeout(() => {
-      onClose(imageUrls[index]);
-    }, 300);
-  };
+  const makeHandleSelectCover = (url) => () => onCoverSelect(url)
 
   return (
-    <div className="generate-popup">
-      <h1>도서 표지 이미지 생성</h1>
-      {isLoading ? (
-        <p>이미지 생성 중...</p>
-      ) : errorMsg ? (
-        <p className="error">{errorMsg}</p>
-      ) : (
-        <div className="image-list">
-          {imageUrls.map((url, index) => (
-            <div
-              key={index}
-              className={`image-box ${selected === index ? 'selected' : ''}`}
-              onClick={() => handleSelect(index)}
-            >
-              <img src={url} alt={`샘플${index + 1}`} className="image-placeholder" />
-            </div>
-          ))}
+    createPortal(
+      <div className="generate-popup">
+        <h1>도서 표지 이미지 생성</h1>
+        {isLoading ? (
+          <div><p>이미지 생성 중...</p><CircularProgress /></div>
+        ) : errorMsg ? (
+          <p className="error">{errorMsg}</p>
+        ) : (
+          imageUrls.length > 0 ?
+          <div className="image-list">
+            {imageUrls.map((url, index) => (
+              <div
+                key={index}
+                className={`image-box`}
+                onClick={makeHandleSelectCover(url)}
+              >
+                <img src={url} alt={`샘플${index + 1}`} className="image-placeholder" />
+              </div>
+            ))}
+          </div> : <span>"생성 하기"를 눌러 표지 이미지를 생성하세요.</span>
+        )}
+        <div style={{ marginTop: 'auto', marginBottom: '5rem' }}>
+          <button className="refresh-btn" onClick={generateImages} disabled={isLoading}>
+            생성 하기
+          </button>
+          <button className="cancel-btn" onClick={onClose} disabled={isLoading}>
+            취소
+          </button>
         </div>
-      )}
-      <button className="refresh-btn" onClick={generateImages} disabled={isLoading}>
-        새로 고침
-      </button>
-    </div>
+      </div>,
+      document.querySelector('#root'),
+    )
   );
 };
 

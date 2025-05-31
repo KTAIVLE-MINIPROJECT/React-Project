@@ -1,13 +1,19 @@
 .generate-popup {
+  display: flex;
+  flex-direction: column;
   width: 80%;
   height: 80%;
   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: white;
   box-shadow: 0 5px 10px gray;
   padding: 40px;
   text-align: center;
   border-radius: 8px;
   overflow: auto;
+  z-index: 100;
 }
 
 .generate-popup h1 {
@@ -35,7 +41,7 @@
   transition: 0.2s ease;
 }
 
-.image-box.selected {
+.image-box:hover {
   border: 2px solid #009688;
 }
 
@@ -54,6 +60,17 @@
 .refresh-btn {
   padding: 10px 20px;
   background-color: #4db6ac;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.cancel-btn {
+  margin-left: 2rem;
+  padding: 10px 20px;
+  background-color: #ff6d6d;
   color: white;
   border: none;
   border-radius: 6px;
