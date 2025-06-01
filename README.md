@@ -49,4 +49,5 @@ yarn dev
 
 ---
 
-😎 Created By : 최인규, 
+😎 Created By : 최인규, 허유찬
+
