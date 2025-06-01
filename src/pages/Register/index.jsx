@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { TextField, Button, MenuItem } from '@mui/material';
 import axios from 'axios';
 import { domain } from '../../const/http';
+import CoverGeneratePopup from "../../components/CoverGeneratePopup/index.jsx";
 import './index.css';
 
 export default function Register() {
@@ -20,6 +21,11 @@ export default function Register() {
 
   const [categories, setCategories] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const prompt = `다음으로 주어지는 책의 정보를 가지고 어울리는 책 표지를 만들어줘.
+  책 제목: ${formData.title}
+  작품 카테고리: ${categories.find(({ id }) => formData.category_id === id)?.name}
+  작품 소개: ${formData.content}`
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -56,7 +62,7 @@ export default function Register() {
         author: formData.author,    
         publisher: formData.publisher,
         content: formData.content,
-        cover_url: null,
+        cover_url: formData.cover_url === '' ? null : formData.cover_url,
         category_id: formData.category_id,
       };
       console.log('POST 요청 payload:', payload);
@@ -74,6 +80,13 @@ export default function Register() {
     e.preventDefault();
     postData();
   };
+
+  const handleOpenPopup = () => {
+    setIsPopupOpen(true)
+  }
+  const handleClosePopup = () => {
+    setIsPopupOpen(false)
+  }
 
   return (
     <div className="register-container">
@@ -146,7 +159,7 @@ export default function Register() {
           <div className="form-right">
             <p><strong>7. 표지 등록하기</strong></p>
             <div
-              onClick={() => setIsPopupOpen(true)}
+              onClick={handleOpenPopup}
               className="cover-preview"
             >
               {formData.cover_url ? (
@@ -164,28 +177,13 @@ export default function Register() {
           </div>
         </form>
       </div>
-
-      {isPopupOpen && (
-        <div className="cover-popup-overlay">
-          <div className="cover-popup-box">
-            <h2>도서 표지 이미지 생성</h2>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', margin: '20px 0' }}>
-              {['cover1.png', 'cover2.png', 'cover3.png'].map((fileName, idx) => (
-                <div
-                  key={idx}
-                  onClick={() => handleCoverSelect(`/${fileName}`)}
-                  className="cover-option"
-                >
-                  샘플{idx + 1}
-                </div>
-              ))}
-            </div>
-            <Button variant="contained" onClick={() => setIsPopupOpen(false)}>
-              닫기
-            </Button>
-          </div>
-        </div>
-      )}
+      {isPopupOpen ?
+        <CoverGeneratePopup
+          onClose={handleClosePopup}
+          onCoverSelect={handleCoverSelect}
+          apiKey={formData.api_key}
+          prompt={prompt}
+        /> : null}
     </div>
   );
 }
