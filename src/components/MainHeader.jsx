@@ -1,13 +1,15 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './MainHeader.css';
+import { Button } from '@mui/material';
 
 const MainHeader = () => {
   const navigate = useNavigate();
   const user = JSON.parse(sessionStorage.getItem('user'));
 
   const logout = () => {
-    sessionStorage.removeItem('user');
-    navigate('/');
+    sessionStorage.removeItem('user');     // 세션 스토리지에서 사용자 정보 제거
+    navigate('/');                         // 홈으로 이동
+    window.location.reload();              // 새로고침으로 UI 반영
   };
 
   return (
@@ -17,12 +19,12 @@ const MainHeader = () => {
         {user ? (
           <div className="user-info">
             <span className="welcome">{user.username}님 환영합니다</span>
-            <button onClick={logout} className="auth-button">로그아웃</button>
+            <Button onClick={logout} className="auth-button" variant='contained' color='success'>로그아웃</Button>
           </div>
         ) : (
           <>
-            <button onClick={() => navigate('/login')} className="auth-button">로그인</button>
-            <button onClick={() => navigate('/signup')} className="auth-button">회원가입</button>
+            <Button onClick={() => navigate('/login')} className="auth-button" variant='contained' color='success'>로그인</Button>
+            <Button onClick={() => navigate('/signup')} className="auth-button" variant='outlined' color='success'>회원가입</Button>
           </>
         )}
       </div>

@@ -5,7 +5,7 @@ import axios from "axios"
 import { domain } from "../const/http"
 import CoverGeneratePopup from "./CoverGeneratePopup/index.jsx";
 
-const BookDetail = ({ selectedBook, updateBook, categories }) => {
+const BookDetail = ({ selectedBook, updateBook, categories, userId }) => {
     const [currentBook, setCurrentBook] = useState(selectedBook)
     const [apiKey, setApiKey] = useState("")
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -164,9 +164,9 @@ const BookDetail = ({ selectedBook, updateBook, categories }) => {
                     />
                 </div>
                 <div style={{ display: 'flex', gap: '1rem' }}>
-                    <Button variant="contained" onClick={handleOpenPopup} color="secondary">표지 생성</Button>
-                    <Button variant="contained" onClick={handleUpdateBook} color="success">수정</Button>
-                    <Button variant="contained" onClick={handleDeleteBook} color="error">삭제</Button>
+                    <Button disabled={currentBook?.user_id !== userId} variant="contained" onClick={handleOpenPopup} color="secondary">표지 생성</Button>
+                    <Button disabled={currentBook?.user_id !== userId} variant="contained" onClick={handleUpdateBook} color="success">수정</Button>
+                    <Button disabled={currentBook?.user_id !== userId} variant="contained" onClick={handleDeleteBook} color="error">삭제</Button>
                 </div>
             </div>
             {isPopupOpen ?
