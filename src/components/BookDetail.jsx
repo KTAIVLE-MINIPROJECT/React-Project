@@ -17,10 +17,12 @@ const BookDetail = ({ selectedBook, updateBook, categories, userId }) => {
         }))
     }
 
-    const prompt = `다음으로 주어지는 책의 정보를 가지고 어울리는 책 표지를 만들어줘.
-      책 제목: ${currentBook?.title}
-      작품 카테고리: ${categories.find(({ id }) => currentBook?.category_id === id)?.name}
-      작품 소개: ${currentBook?.content}`
+    const prompt = `다음으로 주어지는 책의 정보를 기반으로 책 내용을 잘 시각적으로 전달할 수 있는 일러스트 스타일의 도서 표지 이미지를 만들어줘. 
+실제 책 디자인처럼 만드는 걸 우선하며, 알맞은 위치에 책의 제목을 배치하고 이미지 하나 당 책 표지가 정면으로 하나만 보이도록 해줘.
+
+책 제목: ${currentBook?.title}
+작품 소개: ${currentBook?.content}`;
+
 
     const handleUpdateBook = async () => {
         const res = await axios(domain + '/api/v1/book', { method: 'PUT', data: currentBook })
@@ -113,7 +115,7 @@ const BookDetail = ({ selectedBook, updateBook, categories, userId }) => {
                         />
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem', alignItems: 'center' }}>
-                        <span style={{ minWidth: '100px', fontWeight: 'bold' }}>등록일</span>
+                        <span style={{ minWidth: '100px', fontWeight: 'bold' }}>카테고리</span>
                         <CategorySelector
                             hiddenLabel
                             isNotNull
