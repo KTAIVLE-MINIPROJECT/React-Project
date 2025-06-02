@@ -18,7 +18,7 @@ const MainHeader = () => {
       <div className="auth-buttons">
         {user ? (
           <div className="user-info">
-            <span className="welcome">{user.username}님 환영합니다</span>
+            <span className="welcome">{user?.nickname ?? user?.username}님 환영합니다</span>
             <Button onClick={logout} className="auth-button" variant='contained' color='success'>로그아웃</Button>
           </div>
         ) : (
