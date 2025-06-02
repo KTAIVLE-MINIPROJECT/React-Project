@@ -14,7 +14,7 @@ import {
 export default function SignUp() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        username: '',
+        userid: '',
         password: '',
         nickname: '',
     });
@@ -27,7 +27,7 @@ export default function SignUp() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post(`${domain}/api/v1/user/register`, formData);
+            await axios.post(`${domain}/api/v1/users/signup`, formData);
             alert('회원가입 성공!');
             navigate('/login');
         } catch (err) {
@@ -46,9 +46,9 @@ export default function SignUp() {
                     <TextField
                         margin="normal"
                         fullWidth
-                        name="username"
+                        name="userid"
                         label="아이디"
-                        value={formData.username}
+                        value={formData.userid}
                         onChange={handleChange}
                         required
                     />

@@ -13,7 +13,7 @@ import {
 
 export default function Login() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ username: '', password: '' });
+  const [formData, setFormData] = useState({ userid: '', password: '' });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,7 +23,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${domain}/api/v1/user/login`, formData);
+      const res = await axios.post(`${domain}/api/v1/users/login`, formData);
       sessionStorage.setItem('user', JSON.stringify(res.data));
       alert('로그인 성공!');
       navigate('/');
@@ -43,9 +43,9 @@ export default function Login() {
           <TextField
             margin="normal"
             fullWidth
-            name="username"
+            name="userid"
             label="아이디"
-            value={formData.username}
+            value={formData.userid}
             onChange={handleChange}
             required
           />
