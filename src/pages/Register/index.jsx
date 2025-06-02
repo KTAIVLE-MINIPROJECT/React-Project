@@ -73,7 +73,7 @@ const prompt = `다음으로 주어지는 책의 정보를 기반으로 책 내�
                 content: formData.content,
                 cover_url: formData.cover_url === '' ? null : formData.cover_url,
                 category_id: formData.category_id,
-                user_id: user.id // ✅ 반드시 있어야 함
+                userid: user.id // ✅ 반드시 있어야 함
             };
 
             console.log('POST 요청 payload:', payload);
