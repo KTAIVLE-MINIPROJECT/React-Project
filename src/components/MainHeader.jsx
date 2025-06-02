@@ -19,12 +19,12 @@ const MainHeader = () => {
         {user ? (
           <div className="user-info">
             <span className="welcome">{user?.nickname ?? user?.username}님 환영합니다</span>
-            <Button onClick={logout} className="auth-button" variant='contained' color='success'>로그아웃</Button>
+            <Button onClick={logout} className="auth-button" variant='contained'>로그아웃</Button>
           </div>
         ) : (
           <>
-            <Button onClick={() => navigate('/login')} className="auth-button" variant='contained' color='success'>로그인</Button>
-            <Button onClick={() => navigate('/signup')} className="auth-button" variant='outlined' color='success'>회원가입</Button>
+            <Button onClick={() => navigate('/login')} className="auth-button" variant='contained'>로그인</Button>
+            <Button onClick={() => navigate('/signup')} className="auth-button" variant='outlined'>회원가입</Button>
           </>
         )}
       </div>

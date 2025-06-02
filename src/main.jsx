@@ -13,8 +13,8 @@ import SignUp from './pages/SignUp';       // ✅ 추가
 const router = createBrowserRouter([
   { path: '/', element: <MainLayout><App /></MainLayout> },
   { path: '/book', element: <MainLayout><Book /></MainLayout> },
-  { path: '/signup', element: <SignUp /> },
-  { path: '/login', element: <Login /> },
+  { path: '/signup', element: <MainLayout><SignUp /></MainLayout> },
+  { path: '/login', element: <MainLayout><Login /></MainLayout> },
   { path: '/book/register', element: <MainLayout><Register /></MainLayout> },
   { path: '*', element: <NotFound /> },
 ]);
