@@ -115,7 +115,7 @@ const BookDetail = ({ selectedBook, updateBook, categories }) => {
                         />
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem', alignItems: 'center' }}>
-                        <span style={{ minWidth: '100px', fontWeight: 'bold' }}>등록일</span>
+                        <span style={{ minWidth: '100px', fontWeight: 'bold' }}>카테고리</span>
                         <CategorySelector
                             hiddenLabel
                             isNotNull
